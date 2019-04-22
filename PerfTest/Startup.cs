@@ -39,7 +39,7 @@ namespace PerfTest
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
             
             // Add header to identify ASPNET Core Requests:
@@ -49,7 +49,7 @@ namespace PerfTest
                 return next.Invoke();
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseMvc();
 

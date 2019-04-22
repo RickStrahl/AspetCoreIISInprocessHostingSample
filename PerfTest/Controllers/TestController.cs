@@ -27,52 +27,60 @@ namespace PerfTest.Controllers
         [Route("api/staticpage")]
         public string StaticPage()
         {
-            return "STATIC PAGE OUTPUT REDIRECT FROM IIS";
+            return "STATIC PAGE OUTPUT REDIRECT FROM IIS - on IIS YOU SHOULD NOT SEE THIS";
         }
 
         [HttpPost]       
         [Route("api/helloworldjson")]
-        public object HelloWorldJsonPost([FromForm] string name)
+        public object HelloWorldJsonPost(string Name)
         {
             return new
             {
-                Message = $"Hello {name}. Time is: " + DateTime.Now.ToString(),
+                Message = $"Hello {Name}. Time is: " + DateTime.Now.ToString(),
                 Time = DateTime.Now
             };
         }
 
         [HttpPost]        
         [Route("api/helloworldpost")]
-        public object HelloWorldPost(string name)
+        public object HelloWorldPost([FromBody] Person person)
         {
-            return $"Hello {name}. Time is: " + DateTime.Now.ToString();
+            if (person == null)
+                person = new Person();
+            return $"Hello {person.Name}. Time is: " + DateTime.Now.ToString();
         }
-//        
-//        [HttpGet("api/applicationstats")]
-//        public object GetApplicationStats()
-//        {
-//            // Seriously?
-//            //var desc = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
-//
-//            var rt = typeof(string)
-//                .GetTypeInfo()
-//                .Assembly
-//                .GetCustomAttribute<AssemblyFileVersionAttribute>();
-//            var v = new Version(rt.Version);
-//
-//            var entryAss = Assembly.GetEntryAssembly();
-//            var vname = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName;
-//
-//            
-//            var stats = new
-//            {
-//                OsPlatform = System.Runtime.InteropServices.RuntimeInformation.OSDescription,                
-//                DotnetCoreVersion = vname,            
-//            };
-//
-//            
-//            return stats;
-//        }
+
+        public class Person
+        {
+            public string Name { get; set; }
+        }
+
+
+        [HttpGet("api/applicationstats")]
+        public object GetApplicationStats()
+        {
+            // Seriously?
+            //var desc = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
+
+            var rt = typeof(string)
+                .GetTypeInfo()
+                .Assembly
+                .GetCustomAttribute<AssemblyFileVersionAttribute>();
+            var v = new Version(rt.Version);
+
+            var entryAss = Assembly.GetEntryAssembly();
+            var vname = Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName;
+
+
+            var stats = new
+            {
+                OsPlatform = System.Runtime.InteropServices.RuntimeInformation.OSDescription,
+                DotnetCoreVersion = vname,
+            };
+
+
+            return stats;
+        }
 
     }
 

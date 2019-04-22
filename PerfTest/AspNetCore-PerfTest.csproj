@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
-        <AspnetCoreHostingModel>InProcess</AspnetCoreHostingModel>
+        <AspnetCoreHostingModel>inprocess</AspnetCoreHostingModel>
     </PropertyGroup>
 
     <ItemGroup>
