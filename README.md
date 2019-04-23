@@ -24,15 +24,30 @@ This project has a few simple endpoints set up:
 There are test set up for [West Wind Web Surge](https://websurge.west-wind.com) in `perftest.websurge`. You can open this file in WebSurge or potentially import the requests into another load tester of your choice - `.websurge` files are plain text and use [Fiddler's](https://telerik.com/fiddler) HTTP text formatting so it should be easy to set up requests.
 
 ### Testing in WebSurge
+You can pick up a [trial version of WebSurge](https://websurge.west-wind.com) from the Web site and open the `perftest.websurge` file which is the easiest to duplicate these example, but feel free to use any other load testing tool.
+
 For testing in WebSurge I test each request individually rather than all together:
 
 ![](ScreenShot.png)
 
 To do this select the request you want to test and press `Ctrl-I` to toggle between active and inactive (italic) state. You can move through various requests to test.
 
-Run tests for at least 60 seconds.
+* Run tests for at least **60 seconds**. 
+* Set the number of threads to **match the number of virtual processors** in your machine for max throughput. You can use higher numbers but you're likely to hit CPU limits and actually get lower request counts.
 
-Tests are set up for `localhost:5000`. You can also switch to hosting in IIS or some other Web server by using the **Session Options** and **Replace Domain** to set to a different domain. I created a local `perf.west-wind.com` site, added a hosts entry and then changed **Replace Domain** to `perf.west-wind.com` which then hits my IIS server.
+The test requests are set up for the default Kestrel `http` port on `localhost:5000`. To run tests:
+
+* Do `dotnet publish -c Release`
+* Change to the Publish output folder  
+  `bin\release\netcore22\publish`
+* Run `dotnet perftest.dll`
+
+There are `publish*.ps1` scripts for performing publish and run operations for Kestrel and IIS.
+
+#### Switching Domains for IIS in WebSurge
+To use the same WebSurge tests for IIS you can use the **Session Options** and **Replace Domain** to set to a different domain. 
+
+I created a local `perf.west-wind.com` site, added a hosts entry and then changed **Replace Domain** to `perf.west-wind.com` which then hits my IIS server.
 
 You can switch between IIS InProcess and OutOfProcess hosting by change the project's `AspnetCoreHostingModel` setting to `InProcess` or removing the key.
 
